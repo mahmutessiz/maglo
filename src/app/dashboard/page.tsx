@@ -368,11 +368,15 @@ const RecentTransactions = ({
               <td className="px-3 py-4">
                 <div className="flex items-center space-x-3">
                   <div className="flex justify-center items-center bg-gray-100 rounded-lg w-10 h-10">
-                    <Image
+                    <img
                       src={tx.image}
                       alt={tx.name}
-                      width={24}
-                      height={24}
+                      className="w-6 h-6 rounded object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null; // Prevent infinite loop
+                        target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(tx.name)}&background=gray&color=fff&size=100`;
+                      }}
                     />
                   </div>
                   <div>
@@ -471,13 +475,18 @@ const ScheduledTransfers = ({
       {data?.transfers.map((transfer) => (
         <div key={transfer.id} className="flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <img
-              src={transfer.image}
-              alt={transfer.name}
-              width={40}
-              height={40}
-              className="rounded-full"
-            />
+            <div className="relative flex-shrink-0">
+              <img
+                src={transfer.image}
+                alt={transfer.name}
+                className="w-10 h-10 rounded-full object-cover border border-gray-200"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.onerror = null; // Prevent infinite loop
+                  target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(transfer.name)}&background=gray&color=fff&size=100`;
+                }}
+              />
+            </div>
             <div>
               <p className="font-semibold text-gray-800">{transfer.name}</p>
               <p className="text-gray-500 text-xs">

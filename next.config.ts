@@ -8,7 +8,7 @@ images: {
         protocol: 'https',
         hostname: 'ui-avatars.com',
         port: '',
-        pathname: '/**',
+        pathname: '/api/**',
       },
       {
         // Add this new one for your transaction images
