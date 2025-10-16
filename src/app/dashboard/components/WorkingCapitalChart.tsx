@@ -41,7 +41,7 @@ export default function WorkingCapitalChart({
 
   return (
     <div className="bg-white p-6 border border-[#F5F5F5] rounded-[10px]">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-wrap justify-between items-center mb-5 px-[15px]">
         <h2 className="font-bold text-gray-800 text-xl">Working Capital</h2>
         <div className="flex gap-4">
           <div className="flex items-center gap-2">
@@ -53,12 +53,31 @@ export default function WorkingCapitalChart({
           <p>expenses</p>
           </div>
         </div>
-        <select className="bg-gray-50 px-3 py-1.5 border border-gray-200 rounded-lg focus:outline-none text-gray-500 text-sm">
-          <option>Last 6 months</option>
-        </select>
+        <div className="inline-block relative">
+  <select
+    className="bg-gray-50 px-3 py-1.5 pr-8 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200 font-medium text-gray-700 text-sm appearance-none cursor-pointer"
+    defaultValue="Last 7 days"
+  >
+    <option>Last 7 days</option>
+    <option>Last 30 days</option>
+    <option>Last 6 months</option>
+    <option>Last year</option>
+  </select>
+
+  {/* Dropdown arrow */}
+  <svg
+    className="top-1/2 right-2 absolute w-4 h-4 text-gray-500 -translate-y-1/2 pointer-events-none"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+  </svg>
+</div>
       </div>
 
-      <div className="h-80">
+      <div className="h-72">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={chartData}
@@ -69,7 +88,7 @@ export default function WorkingCapitalChart({
               bottom: 0,
             }}
           >
-            <CartesianGrid strokeDasharray="3 0" stroke="#F3F4F6" horizontal={false} />
+            <CartesianGrid strokeDasharray="3 0" stroke="#FFF4FE" horizontal={false} />
             <XAxis
               dataKey="name"
               tick={{ fill: "#9CA3AF" }}
@@ -89,8 +108,8 @@ export default function WorkingCapitalChart({
               type="monotone"
               dataKey="income"
               name="Income"
-              stroke="#10B981"
-              strokeWidth={3}
+              stroke="#29A073"
+              strokeWidth={2}
               dot={false}
               activeDot={{ r: 6, fill: "#10B981" }}
             />
@@ -98,8 +117,8 @@ export default function WorkingCapitalChart({
               type="monotone"
               dataKey="expenses"
               name="Expenses"
-              stroke="#EAB308"
-              strokeWidth={3}
+              stroke="#C8EE44"
+              strokeWidth={2}
               dot={false}
               activeDot={{ r: 6, fill: "#EAB308" }}
             />

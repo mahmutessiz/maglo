@@ -46,11 +46,18 @@ export default function SignUpPage() {
   return (
     <div className="flex bg-white min-h-screen">
       {/* Left Section */}
-      <div className="flex flex-col flex-1 justify-between px-10 md:px-24 py-8">
+      <div className="flex flex-col flex-1 justify-between px-10 md:px-24 py-10">
         {/* Logo aligned to top */}
-        <div className="mx-auto w-full max-w-sm">
-          <Image src="/maglo-logo.svg" alt="Maglo Logo" width={120} height={32} />
-        </div>
+        <div className="flex items-center gap-3 mx-auto w-full max-w-sm font-bold text-[#1B212D] text-lg">
+                  <Image
+                    src="/maglo-logo.svg"
+                    alt="Maglo Logo"
+                    className="w-[30px] h-[30px]"
+                    width={30}
+                    height={30}
+                  />
+                  Maglo.
+                </div>
 
         {/* Centered form */}
         <div className="flex flex-col flex-grow justify-center items-center">

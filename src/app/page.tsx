@@ -54,7 +54,7 @@ export default function LoginPage() {
       alert("🎉 " + data.message);
       console.log("Logged in user:", data.data.user);
       if (data.data.accessToken) {
-        localStorage.setItem('accessToken', data.data.accessToken);
+        localStorage.setItem("accessToken", data.data.accessToken);
       }
       router.push("/dashboard");
     },
@@ -71,21 +71,32 @@ export default function LoginPage() {
   return (
     <div className="flex bg-white min-h-screen">
       {/* Left Section */}
-      <div className="relative flex flex-col flex-1 justify-between px-10 md:px-24 py-8">
+      <div className="relative flex flex-col flex-1 justify-between px-10 md:px-24 py-10">
         {/* Logo aligned to top */}
-        <div className="mx-auto w-full max-w-sm">
-          <Image src="/maglo-logo.svg" alt="Maglo Logo" width={120} height={32} />
+        <div className="flex items-center gap-3 mx-auto w-full max-w-sm font-bold text-[#1B212D] text-lg">
+          <Image
+            src="/maglo-logo.svg"
+            alt="Maglo Logo"
+            className="w-[30px] h-[30px]"
+            width={30}
+            height={30}
+          />
+          Maglo.
         </div>
 
         {/* Centered form */}
         <div className="flex flex-col flex-grow justify-center items-center">
           <div className="w-full max-w-sm">
             <h1 className="font-semibold text-gray-900 text-3xl">Sign In</h1>
-            <p className="mt-2 text-gray-500">Welcome back! Please enter your details</p>
+            <p className="mt-2 text-gray-500">
+              Welcome back! Please enter your details
+            </p>
 
             <form onSubmit={handleSubmit} className="space-y-5 mt-8">
               <div>
-                <label className="block font-medium text-gray-700 text-sm">Email</label>
+                <label className="block font-medium text-gray-700 text-sm">
+                  Email
+                </label>
                 <input
                   type="email"
                   name="email"
@@ -97,7 +108,9 @@ export default function LoginPage() {
               </div>
 
               <div>
-                <label className="block font-medium text-gray-700 text-sm">Password</label>
+                <label className="block font-medium text-gray-700 text-sm">
+                  Password
+                </label>
                 <input
                   type="password"
                   name="password"
