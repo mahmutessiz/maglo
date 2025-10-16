@@ -1,22 +1,31 @@
 import React from "react";
-
+import Image from "next/image";
 export default function StatCard({
   title,
   amount,
-  icon: Icon,
+  icon,
+  bgColor,
+  textColor,
+  titleColor,
+  iconBgColor,
 }: {
   title: string;
   amount: string;
-  icon: React.ElementType;
+  icon: string;
+  bgColor?: string;
+  textColor?: string;
+  titleColor?: string;
+  iconBgColor?: string;
 }) {
   return (
-    <div className="flex items-center space-x-4 bg-white shadow-sm p-6 border border-gray-200 rounded-2xl">
-      <div className="bg-gray-100 p-3 rounded-full">
-        <Icon className="w-6 h-6 text-gray-800" />
+    <div className={"flex items-center space-x-4  p-6  rounded-[10px]" + ` ${bgColor}`}>
+      <div className={"p-3 rounded-full" + ` ${iconBgColor}`}>
+        {/* <Icon className="w-6 h-6 text-gray-800" /> */}
+        <Image src={icon} alt={title} width={20} height={20} />
       </div>
       <div>
-        <p className="text-gray-500 text-sm">{title}</p>
-        <p className="font-bold text-gray-900 text-2xl">{amount}</p>
+        <p className={"text-sm" + ` ${titleColor}`}>{title}</p>
+        <p className={"font-bold text-2xl"+ ` ${textColor}`}>{amount}</p>
       </div>
     </div>
   );

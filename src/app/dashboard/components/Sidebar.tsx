@@ -1,26 +1,26 @@
 "use client";
-import {
-  LayoutDashboard,
-  ArrowRightLeft,
-  FileText,
-  Wallet as WalletIcon,
-  Settings,
-  HelpCircle,
-  LogOut,
-} from "lucide-react";
+
+import Image from "next/image";
 
 export default function Sidebar() {
   const navItems = [
-    { name: "Dashboard", icon: LayoutDashboard, active: true },
-    { name: "Transactions", icon: ArrowRightLeft },
-    { name: "Invoices", icon: FileText },
-    { name: "My Wallets", icon: WalletIcon },
-    { name: "Settings", icon: Settings },
+    { name: "Dashboard", icon: "/home-icon.svg", active: true },
+    { name: "Transactions", icon: "/transaction-icon.svg" },
+    { name: "Invoices", icon: "/invoices-icon.svg" },
+    { name: "My Wallets", icon: "/My-Wallets.svg" },
+    { name: "Settings", icon: "/settings-icon.svg" },
   ];
 
   return (
-    <aside className="flex flex-col flex-shrink-0 bg-white border-gray-200 border-r w-64">
-      <div className="flex items-center px-8 h-20">
+    <aside className="absolute flex flex-col flex-shrink-0 bg-[#FAFAFA] w-64 h-screen">
+      <div className="flex items-center gap-2 mb-8 px-8 pt-[30px] h-20">
+        <Image
+          src="/maglo-logo.svg"
+          alt="Maglo Logo"
+          className="w-auto h-[30px]"
+          width={30}
+          height={30}
+        />
         <h1 className="font-bold text-gray-800 text-2xl">Maglo.</h1>
       </div>
 
@@ -29,28 +29,34 @@ export default function Sidebar() {
           <a
             key={item.name}
             href="#"
-            className={`flex items-center px-4 py-3 rounded-lg text-gray-700 font-medium transition-colors duration-200 ${
+            className={`flex items-center px-4 py-3 gap-3 rounded-lg text-gray-600 font-medium text-[17px] transition-colors duration-200 ${
               item.active ? "bg-lime-400 text-gray-900" : "hover:bg-gray-100"
             }`}
           >
-            <item.icon className="mr-3 w-5 h-5" />
+            <Image
+              src={item.icon}
+              alt="item.name"
+              className="w-4 h-4"
+              width={16}
+              height={16}
+            />
             {item.name}
           </a>
         ))}
       </nav>
 
-      <div className="space-y-2 px-6 py-8">
+      <div className="space-y-2 px-6 md:pb-8">
         <a
           href="#"
-          className="flex items-center hover:bg-gray-100 px-4 py-3 rounded-lg font-medium text-gray-700"
+          className="flex items-center gap-3 hover:bg-gray-100 px-4 py-3 rounded-lg font-medium text-[17px] text-gray-700"
         >
-          <HelpCircle className="mr-3 w-5 h-5" /> Help
+          <Image src="/help.svg" alt="Help" className="w-4 h-4" width={16} height={16} /> Help
         </a>
         <a
           href="#"
-          className="flex items-center hover:bg-gray-100 px-4 py-3 rounded-lg font-medium text-gray-700"
+          className="flex items-center gap-3 hover:bg-gray-100 px-4 py-3 rounded-lg font-medium text-[17px] text-gray-700"
         >
-          <LogOut className="mr-3 w-5 h-5" /> Logout
+          <Image src="/logout.svg" alt="Logout" className="w-4 h-4" width={16} height={16} /> Logout
         </a>
       </div>
     </aside>

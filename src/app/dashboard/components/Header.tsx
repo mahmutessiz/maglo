@@ -4,8 +4,8 @@ import type { UserProfile } from "../../../types/types";
 
 export default function Header({ user }: { user?: UserProfile }) {
   return (
-    <header className="flex justify-between items-center bg-white px-8 border-gray-200 border-b h-20">
-      <h1 className="font-bold text-gray-900 text-3xl">Dashboard</h1>
+    <header className="flex justify-between items-center bg-white md:ml-[calc(16rem)] px-8 pt-[30px]">
+      <h1 className="font-semibold text-[25px] text-gray-900">Dashboard</h1>
 
       <div className="flex items-center space-x-6">
         <button className="text-gray-500 hover:text-gray-800">

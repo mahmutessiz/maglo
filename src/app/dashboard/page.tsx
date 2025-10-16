@@ -24,13 +24,13 @@ export default function DashboardPage() {
 
   const fetcher = async (url: string) => {
     const token = localStorage.getItem("accessToken");
-    if (!token) router.push("/login");
+    if (!token) router.push("/");
 
     const res = await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    if (res.status === 401) router.push("/login");
+    if (res.status === 401) router.push("/");
     const json = await res.json();
     return json.data;
   };
@@ -66,28 +66,40 @@ export default function DashboardPage() {
   });
 
   return (
-    <div className="flex bg-[#F9FAFB] min-h-screen text-gray-800">
+    <div className="flex bg-white min-h-screen text-gray-800">
       <Sidebar />
       <div className="flex flex-col flex-1">
         <Header user={user} />
 
-        <main className="gap-8 grid grid-cols-1 xl:grid-cols-[2fr_1fr] p-8 overflow-y-auto">
+        <main className="gap-8 grid grid-cols-1 xl:grid-cols-[2fr_1fr] ml-[calc(16rem)] p-8 overflow-y-auto">
           <div className="flex flex-col gap-8">
             <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               <StatCard
                 title="Total balance"
                 amount={formatCurrency(summary?.totalBalance.amount ?? 0)}
-                icon={WalletIcon}
+                bgColor="bg-[#363A3F]"
+                iconBgColor="bg-[#4E5257]"
+                textColor="text-white"
+                titleColor="text-[#929EAE]"
+                icon={"/wallet-yellow.svg"}
               />
               <StatCard
                 title="Total spending"
                 amount={formatCurrency(summary?.totalExpense.amount ?? 0)}
-                icon={ArrowRightLeft}
+                icon={"/wallet-spending.svg"}
+                bgColor="bg-[#F8F8F8]"
+                iconBgColor="bg-[#EBE8E8]"
+                titleColor="text-[#929EAE]"
+                textColor="text-[#1B212D]"
               />
               <StatCard
                 title="Total saved"
                 amount={formatCurrency(summary?.totalSavings.amount ?? 0)}
-                icon={FileText}
+                icon={"/wallet-saved.svg"}
+                bgColor="bg-[#F8F8F8]"
+                iconBgColor="bg-[#EBE8E8]"
+                titleColor="text-[#929EAE]"
+                textColor="text-[#1B212D]"
               />
             </div>
 
