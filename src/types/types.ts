@@ -62,6 +62,7 @@ export interface WalletCard {
   expiryYear: number;
   balance: number;
   currency: string;
+  isDefault: boolean;
 }
 
 export interface WalletData {
@@ -77,6 +78,8 @@ export interface ScheduledTransfer {
   date: string;      // e.g. "2025-10-20"
   amount: number;
   currency: string;
+  image: string;
+  name: string;
 }
 
 export interface ScheduledTransfersData {
@@ -93,6 +96,9 @@ export interface Transaction {
   type: "income" | "expense";
   amount: number;
   currency: string;
+  image: string;
+  business: string;
+  name: string;
 }
 
 export interface TransactionsData {

@@ -12,7 +12,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="absolute flex flex-col flex-shrink-0 bg-[#FAFAFA] w-64 h-screen">
+    <aside className="hidden md:fixed sm:flex flex-col flex-shrink-0 bg-[#FAFAFA] w-64 h-screen">
       <div className="flex items-center gap-2 mb-8 px-8 pt-[30px] h-20">
         <Image
           src="/maglo-logo.svg"

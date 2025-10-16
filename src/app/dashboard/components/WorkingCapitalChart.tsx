@@ -7,8 +7,8 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  Legend,
   TooltipProps,
+  CartesianGrid,
 } from "recharts";
 import { toRechartsData, type WorkingCapitalChartItem } from "../../../lib/workingCapitalChart";
 import type { WorkingCapital } from "../../../types/types";
@@ -40,9 +40,19 @@ export default function WorkingCapitalChart({
   const chartData = toRechartsData(data) || [];
 
   return (
-    <div className="bg-white shadow-sm p-6 border border-gray-200 rounded-2xl">
+    <div className="bg-white p-6 border border-[#F5F5F5] rounded-[10px]">
       <div className="flex justify-between items-center mb-4">
         <h2 className="font-bold text-gray-800 text-xl">Working Capital</h2>
+        <div className="flex gap-4">
+          <div className="flex items-center gap-2">
+            <span className="bg-teal-500 rounded-full w-2 h-2"></span>
+          <p>income</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="bg-yellow-500 rounded-full w-2 h-2"></span>
+          <p>expenses</p>
+          </div>
+        </div>
         <select className="bg-gray-50 px-3 py-1.5 border border-gray-200 rounded-lg focus:outline-none text-gray-500 text-sm">
           <option>Last 6 months</option>
         </select>
@@ -59,20 +69,22 @@ export default function WorkingCapitalChart({
               bottom: 0,
             }}
           >
-            {/* <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" /> */}
+            <CartesianGrid strokeDasharray="3 0" stroke="#F3F4F6" horizontal={false} />
             <XAxis
               dataKey="name"
               tick={{ fill: "#9CA3AF" }}
               axisLine={false}
               tickLine={false}
+              dy={8}
             />
             <YAxis
               tick={{ fill: "#9CA3AF" }}
               axisLine={false}
               tickLine={false}
+              dy={-12}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Legend verticalAlign="top" height={36} />
+            {/* <Legend verticalAlign="top" height={36} /> */}
             <Line
               type="monotone"
               dataKey="income"
