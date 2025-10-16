@@ -21,7 +21,7 @@ export default function ScheduledTransfers({ data }: { data?: ScheduledTransfers
 
   return (
     <div className="w-full max-w-md">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 px-4">
         <h2 className="font-semibold text-gray-900 text-xl">Scheduled Transfers</h2>
         <button className="flex items-center gap-1 font-semibold text-[#29A073] hover:text-teal-700 text-sm">
           View All <ChevronRight className="w-4 h-4" />
@@ -33,9 +33,7 @@ export default function ScheduledTransfers({ data }: { data?: ScheduledTransfers
           data.transfers.map((transfer, index) => (
             <div
               key={transfer.id}
-              className={`flex items-center justify-between py-4 px-4 ${
-                index !== data.transfers.length - 1 ? "border-b border-gray-100" : ""
-              }`}
+              className={`flex items-center justify-between py-4 px-4`}
             >
               <div className="flex flex-1 items-center gap-3">
                 <img
