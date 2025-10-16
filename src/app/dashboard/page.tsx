@@ -8,7 +8,6 @@ import WorkingCapitalChart from "./components/WorkingCapitalChart";
 import RecentTransactions from "./components/RecentTransactions";
 import Wallet from "./components/Wallet/Wallet";
 import ScheduledTransfers from "./components/ScheduledTransfers";
-import { WalletIcon, ArrowRightLeft, FileText } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import type {
   UserProfile,

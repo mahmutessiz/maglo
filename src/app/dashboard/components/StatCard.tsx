@@ -20,7 +20,6 @@ export default function StatCard({
   return (
     <div className={"flex items-center space-x-4  p-6  rounded-[10px]" + ` ${bgColor}`}>
       <div className={"p-3 rounded-full" + ` ${iconBgColor}`}>
-        {/* <Icon className="w-6 h-6 text-gray-800" /> */}
         <Image src={icon} alt={title} width={20} height={20} />
       </div>
       <div>
