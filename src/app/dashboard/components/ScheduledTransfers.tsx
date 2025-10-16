@@ -33,7 +33,7 @@ export default function ScheduledTransfers({ data }: { data?: ScheduledTransfers
           data.transfers.map((transfer, index) => (
             <div
               key={transfer.id}
-              className={`flex items-center justify-between py-4 px-4`}
+              className={`flex items-center justify-between py-4 px-4 border-b border-b-[#FAFAFA]`}
             >
               <div className="flex flex-1 items-center gap-3">
                 <img
@@ -41,12 +41,12 @@ export default function ScheduledTransfers({ data }: { data?: ScheduledTransfers
                   alt={transfer.name}
                   className="rounded-full w-10 h-10"
                 />
-                <div className="flex-1">
-                  <p className="font-medium text-gray-900 text-sm">{transfer.name}</p>
-                  <p className="text-gray-500 text-xs">{formatDate(transfer.date)}</p>
+                <div className="flex flex-col flex-1 gap-[7px]">
+                  <p className="font-semibold text-[#1B212D] text-sm">{transfer.name}</p>
+                  <p className="text-[#929EAE] text-xs">{formatDate(transfer.date)}</p>
                 </div>
               </div>
-              <p className="font-semibold text-gray-900 text-sm">
+              <p className="font-semibold text-[16px] text-black">
                 − {transfer.currency}{Math.abs(transfer.amount).toLocaleString()}
               </p>
             </div>

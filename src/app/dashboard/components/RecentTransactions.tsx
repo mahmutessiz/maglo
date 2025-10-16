@@ -103,11 +103,11 @@ export default function RecentTransactions({ data }: { data?: TransactionsData }
                 </div>
               </div>
               <div className="col-span-3">
-                <p className="text-gray-700 text-sm">{tx.type}</p>
+                <p className="text-[#929EAE] text-sm">{tx.type}</p>
               </div>
               <div className="col-span-2">
-                <p className={`font-semibold text-sm ${tx.amount < 0 ? "text-gray-900" : "text-green-600"}`}>
-                  {tx.amount < 0 ? "−" : "+"}{tx.currency}{Math.abs(tx.amount).toLocaleString()}
+                <p className={`font-semibold text-sm ${tx.amount < 0 ? "text-[#1B212D]" : "text-green-600"}`}>
+                  {tx.amount < 0 ? "−" : "+"}{tx.currency == 'TRY' ? '₺' : '$'}{Math.abs(tx.amount).toLocaleString()}
                 </p>
               </div>
               <div className="col-span-3">
