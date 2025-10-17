@@ -6,8 +6,8 @@ import Image from "next/image";
 
 export default function HeaderDesktop({ user }: { user?: UserProfile }) {
   return (
-    <header className="hidden md:flex justify-between items-center bg-white shadow-sm md:shadow-none md:ml-[calc(16rem)] px-8 py-6 w-auto">
-      <h1 className="font-semibold text-gray-900 text-2xl">Dashboard</h1>
+    <header className="hidden md:flex justify-between items-center bg-white shadow-sm md:shadow-none md:ml-[calc(16rem)] px-8 pt-[30px] w-auto">
+      <h1 className="font-semibold text-[#1B212D text-[25px]">Dashboard</h1>
 
       <div className="flex items-center gap-[45px]">
         <button className="text-gray-500 hover:text-gray-800">

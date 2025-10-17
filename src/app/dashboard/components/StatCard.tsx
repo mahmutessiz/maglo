@@ -18,11 +18,11 @@ export default function StatCard({
   iconBgColor?: string;
 }) {
   return (
-    <div className={"flex items-center space-x-4  p-6  rounded-[10px]" + ` ${bgColor}`}>
-      <div className={"p-3 rounded-full" + ` ${iconBgColor}`}>
+    <div className={"flex justify-center items-center py-[24px] w-full px-[20px] rounded-[10px]" + ` ${bgColor}`}>
+      <div className={"w-[42px] h-[42px] mr-[15px] flex items-center justify-center rounded-full" + ` ${iconBgColor}`}>
         <Image src={icon} alt={title} width={20} height={20} className="w-5 h-5" />
       </div>
-      <div>
+      <div className="flex flex-col justify-center items-start gap-2.5 min-w-[125px]">
         <p className={"text-sm" + ` ${titleColor}`}>{title}</p>
         <p className={"font-bold text-2xl"+ ` ${textColor}`}>{amount}</p>
       </div>
