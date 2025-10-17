@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/financial/transfers/scheduled`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/financial/wallet`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
