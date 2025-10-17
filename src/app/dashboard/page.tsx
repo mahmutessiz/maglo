@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { toastError } from "@/lib/toast";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import StatCard from "./components/StatCard";
@@ -23,13 +24,28 @@ export default function DashboardPage() {
 
   const fetcher = async (url: string) => {
     const token = localStorage.getItem("accessToken");
-    if (!token) router.push("/");
+    if (!token) {
+      toastError("Please login to continue", { position: "top-center" });
+      router.push("/");
+      return;
+    }
 
     const res = await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    if (res.status === 401) router.push("/");
+    if (res.status === 401) {
+      toastError("Session expired. Please login again", { position: "top-center" });
+      localStorage.removeItem("accessToken");
+      router.push("/");
+      return;
+    }
+
+    if (!res.ok) {
+      toastError("Failed to fetch data", { position: "top-center" });
+      throw new Error("Failed to fetch data");
+    }
+
     const json = await res.json();
     return json.data;
   };
