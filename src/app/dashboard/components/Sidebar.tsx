@@ -75,8 +75,8 @@ export default function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
     >
       
       <div className="flex items-center gap-2 mb-8 px-8 pt-[30px] h-20">
-        <Image src="/maglo-logo.svg" alt="Maglo Logo" width={30} height={30} />
-        <h1 className="font-bold text-gray-800 text-2xl">Maglo.</h1>
+        <Image src="/maglo-logo.svg" alt="Maglo Logo" className="w-[30px] h-[30px]" width={30} height={30} />
+        <h1 className="font-bold text-[#1B212D] text-lg">Maglo.</h1>
       </div>
 
      
@@ -87,7 +87,7 @@ export default function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
             <button
               key={item.name}
               onClick={() => setActiveTab(item.name)}
-              className={`flex items-center w-full text-left px-4 py-3 gap-3 rounded-lg font-medium text-[14px] transition-colors duration-200 ${
+              className={`flex items-center w-full text-left px-[15px] py-[14px] gap-3 rounded-lg font-medium text-[14px] transition-colors duration-200 ${
                 isActive
                   ? "bg-[#C8EE44] text-[#1B212D]"
                   : "text-[#929EAE] hover:bg-gray-100"

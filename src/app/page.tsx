@@ -83,7 +83,6 @@ export default function LoginPage() {
     <div className="flex bg-white min-h-screen">
       {/* Left Section */}
       <div className="relative flex flex-col flex-1 justify-between px-10 md:px-24 py-10">
-        {/* Logo aligned to top */}
         <div className="flex items-center gap-3 mx-auto w-full max-w-sm font-bold text-[#1B212D] text-lg">
           <Image
             src="/maglo-logo.svg"
