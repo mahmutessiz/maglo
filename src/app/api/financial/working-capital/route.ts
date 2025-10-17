@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const response = await fetch('https://case.nodelabs.dev/api/financial/working-capital', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/financial/working-capital`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

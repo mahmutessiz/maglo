@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { toastSuccess, toastError } from '@/lib/toast';
+import { toastSuccess, toastError } from "@/lib/toast";
 
 type LoginResponse = {
   success: boolean;
@@ -26,33 +28,42 @@ type LoginResponse = {
   };
 };
 
+const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
+
 export default function LoginPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ email: "", password: "" });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
 
   const loginMutation = useMutation({
-    mutationFn: async (): Promise<LoginResponse> => {
+    mutationFn: async (data: LoginFormData): Promise<LoginResponse> => {
       const res = await fetch("/api/users/login", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(data),
       });
 
-      const data = await res.json();
+      const responseData = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Login failed");
+        throw new Error(responseData.message || "Login failed");
       }
 
-      return data;
+      return responseData;
     },
     onSuccess: (data) => {
-      toastSuccess(data.message, { duration: 3000, position: 'top-center' });
+      toastSuccess(data.message, { duration: 3000, position: "top-center" });
       console.log("Logged in user:", data.data.user);
       if (data.data.accessToken) {
         localStorage.setItem("accessToken", data.data.accessToken);
@@ -60,13 +71,12 @@ export default function LoginPage() {
       router.push("/dashboard");
     },
     onError: (error) => {
-      toastError(error.message, { duration: 3000, position: 'top-center' });
+      toastError(error.message, { duration: 3000, position: "top-center" });
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    loginMutation.mutate();
+  const onSubmit = (data: LoginFormData) => {
+    loginMutation.mutate(data);
   };
 
   return (
@@ -93,19 +103,26 @@ export default function LoginPage() {
               Welcome back! Please enter your details
             </p>
 
-            <form onSubmit={handleSubmit} className="space-y-5 mt-8">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 mt-8">
               <div>
                 <label className="block font-medium text-gray-700 text-sm">
                   Email
                 </label>
                 <input
                   type="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
                   placeholder="example@gmail.com"
-                  className="mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400 w-full placeholder-gray-500"
+                  {...register("email")}
+                  className={`mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 w-full placeholder-gray-500 ${
+                    errors.email
+                      ? "border-red-500 focus:ring-red-400"
+                      : "border-gray-300 focus:ring-lime-400"
+                  }`}
                 />
+                {errors.email && (
+                  <p className="mt-1 text-red-500 text-sm">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -114,12 +131,19 @@ export default function LoginPage() {
                 </label>
                 <input
                   type="password"
-                  name="password"
-                  value={form.password}
-                  onChange={handleChange}
                   placeholder="•••••••"
-                  className="mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400 w-full placeholder-gray-500"
+                  {...register("password")}
+                  className={`mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 w-full placeholder-gray-500 ${
+                    errors.password
+                      ? "border-red-500 focus:ring-red-400"
+                      : "border-gray-300 focus:ring-lime-400"
+                  }`}
                 />
+                {errors.password && (
+                  <p className="mt-1 text-red-500 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
               <button

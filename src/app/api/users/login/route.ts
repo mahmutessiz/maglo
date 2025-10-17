@@ -4,7 +4,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
-    const response = await fetch('https://case.nodelabs.dev/api/users/login', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

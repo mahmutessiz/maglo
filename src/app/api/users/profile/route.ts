@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const response = await fetch('https://case.nodelabs.dev/api/users/profile', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/profile`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

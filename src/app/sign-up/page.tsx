@@ -1,22 +1,44 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { toastSuccess, toastError } from "@/lib/toast";
 
+const signupSchema = z.object({
+  fullName: z.string().min(2, "Full name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number")
+    .regex(/[!@#$%^&._*]/, "Password must contain at least one special character (!@#$%^&._*)"),
+});
+
+type SignupFormData = z.infer<typeof signupSchema>;
+
 export default function SignUpPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ fullName: "", email: "", password: "" });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+  });
 
   const registerMutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (data: SignupFormData) => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(data),
       });
 
       if (!res.ok) {
@@ -36,13 +58,8 @@ export default function SignUpPage() {
     },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    registerMutation.mutate();
+  const onSubmit = (data: SignupFormData) => {
+    registerMutation.mutate(data);
   };
 
   return (
@@ -70,19 +87,26 @@ export default function SignUpPage() {
               Welcome! Please enter your details
             </p>
 
-            <form onSubmit={handleSubmit} className="space-y-5 mt-8">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 mt-8">
               <div>
                 <label className="block font-medium text-gray-700 text-sm">
                   Full Name
                 </label>
                 <input
                   type="text"
-                  name="fullName"
-                  value={form.fullName}
-                  onChange={handleChange}
                   placeholder="John Doe"
-                  className="mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400 w-full placeholder-gray-500"
+                  {...register("fullName")}
+                  className={`mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 w-full placeholder-gray-500 ${
+                    errors.fullName
+                      ? "border-red-500 focus:ring-red-400"
+                      : "border-gray-300 focus:ring-lime-400"
+                  }`}
                 />
+                {errors.fullName && (
+                  <p className="mt-1 text-red-500 text-sm">
+                    {errors.fullName.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -91,12 +115,19 @@ export default function SignUpPage() {
                 </label>
                 <input
                   type="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleChange}
                   placeholder="example@gmail.com"
-                  className="mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400 w-full placeholder-gray-500"
+                  {...register("email")}
+                  className={`mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 w-full placeholder-gray-500 ${
+                    errors.email
+                      ? "border-red-500 focus:ring-red-400"
+                      : "border-gray-300 focus:ring-lime-400"
+                  }`}
                 />
+                {errors.email && (
+                  <p className="mt-1 text-red-500 text-sm">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
 
               <div>
@@ -105,12 +136,28 @@ export default function SignUpPage() {
                 </label>
                 <input
                   type="password"
-                  name="password"
-                  value={form.password}
-                  onChange={handleChange}
                   placeholder="•••••••"
-                  className="mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-400 w-full placeholder-gray-500"
+                  {...register("password")}
+                  className={`mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 w-full placeholder-gray-500 ${
+                    errors.password
+                      ? "border-red-500 focus:ring-red-400"
+                      : "border-gray-300 focus:ring-lime-400"
+                  }`}
                 />
+                {errors.password && (
+                  <div className="space-y-1 mt-2">
+                    {errors.password.message && (
+                      <p className="text-red-500 text-sm">
+                        • {errors.password.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+                {!errors.password && (
+                  <p className="mt-2 text-gray-500 text-xs">
+                    Password must contain: uppercase, lowercase, number, and special character (!@#$%^&*)
+                  </p>
+                )}
               </div>
 
               <button
