@@ -1,6 +1,5 @@
 "use client";
 
-import { CircleUserRound } from "lucide-react";
 import type { UserProfile } from "@/types/types";
 import Image from "next/image";
 
@@ -21,7 +20,10 @@ export default function HeaderDesktop({ user }: { user?: UserProfile }) {
         <div className="flex items-center bg-[#FAFAFA] px-3 py-1.5 rounded-full">
           {user ? (
             <>
-              <CircleUserRound className="w-8 h-8 text-gray-400" />
+              <div className="flex justify-center items-center bg-lime-400 rounded-full w-9 h-9 font-bold">
+                {/* get first letters of the full name and surname */}
+                <span>{user.fullName[0].toUpperCase() + user.fullName.split(" ")[1][0].toUpperCase()}</span>
+              </div>
               <div className="flex items-center ml-2">
                 <span className="font-semibold text-[#1B212D] text-base">{user.fullName}</span>
                 <Image

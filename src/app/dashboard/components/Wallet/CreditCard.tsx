@@ -25,11 +25,11 @@ export default function CreditCard({ data }: { data?: { cards: WalletCard[] } })
 
   return (
     <>
-      {/* Primary Card - Top */}
+      {/* Primary Card */}
       {primaryCard && (
         <div
           key={primaryCard.id}
-          className="px-[30px] py-4 rounded-[15px] w-full max-w-[354px] h-[210px]"
+          className="hover:z-50 px-[30px] py-4 rounded-[15px] w-full max-w-[354px] h-[210px] hover:scale-105 transition-transform duration-300 ease-in-out"
           style={{
             background: "linear-gradient(104.3deg, #4A4A49 2.66%, #20201F 90.57%)",
           }}
@@ -88,7 +88,7 @@ export default function CreditCard({ data }: { data?: { cards: WalletCard[] } })
       {secondaryCard && (
         <div 
           key={secondaryCard.id}
-          className="bg-gradient-to-b from-gray-200/40 to-gray-300/10 backdrop-blur-sm -mt-16 px-[30px] py-4 rounded-[15px] w-[90%] max-w-[324px] h-[172px]"
+          className="bg-gradient-to-b from-gray-200/40 to-gray-300/10 backdrop-blur-sm -mt-16 px-[30px] py-4 rounded-[15px] w-[90%] max-w-[324px] h-[172px] hover:scale-105 transition-transform duration-300 ease-in-out"
         >
           <div className="flex flex-col gap-2">
             {/* Top Section */}
