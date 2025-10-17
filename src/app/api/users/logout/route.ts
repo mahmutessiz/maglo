@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
     try {
         const response = await fetch('https://case.nodelabs.dev/api/users/logout', {
             method: 'POST',

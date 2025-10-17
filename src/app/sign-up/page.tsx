@@ -3,13 +3,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-
+import { toastSuccess, toastError } from "@/lib/toast";
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [form, setForm] = useState({ fullName: "", email: "", password: "" });
 
-  // --- React Query Mutation ---
   const registerMutation = useMutation({
     mutationFn: async () => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/register`, {
@@ -26,11 +27,12 @@ export default function SignUpPage() {
       return res.json();
     },
     onSuccess: (data) => {
-      alert("🎉 " + data.message);
+      toastSuccess(data.message, { duration: 3000, position: "top-center" });
       console.log("Registered user:", data.data);
+      router.push("/");
     },
-    onError: (error: any) => {
-      alert("❌ " + error.message);
+    onError: (error) => {
+      toastError(error.message, { duration: 3000, position: "top-center" });
     },
   });
 
@@ -47,19 +49,18 @@ export default function SignUpPage() {
     <div className="flex bg-white min-h-screen">
       {/* Left Section */}
       <div className="flex flex-col flex-1 justify-between px-10 md:px-24 py-10">
-        {/* Logo aligned to top */}
         <div className="flex items-center gap-3 mx-auto w-full max-w-sm font-bold text-[#1B212D] text-lg">
-                  <Image
-                    src="/maglo-logo.svg"
-                    alt="Maglo Logo"
-                    className="w-[30px] h-[30px]"
-                    width={30}
-                    height={30}
-                  />
-                  Maglo.
-                </div>
+          <Image
+            src="/maglo-logo.svg"
+            alt="Maglo Logo"
+            className="w-[30px] h-[30px]"
+            width={30}
+            height={30}
+          />
+          Maglo.
+        </div>
 
-        {/* Centered form */}
+        {/* form */}
         <div className="flex flex-col flex-grow justify-center items-center">
           <div className="w-full max-w-sm">
             <h1 className="font-semibold text-gray-900 text-3xl">
