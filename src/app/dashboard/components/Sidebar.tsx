@@ -34,6 +34,7 @@ export default function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
       queryClient.removeQueries({ queryKey: ["user"] });
+      localStorage.removeItem("accessToken");
       router.push("/");
     },
     onError: (error) => {

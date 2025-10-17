@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
+import { toastSuccess, toastError } from '@/lib/toast';
 
 type LoginResponse = {
   success: boolean;
@@ -51,15 +52,15 @@ export default function LoginPage() {
       return data;
     },
     onSuccess: (data) => {
-      alert("🎉 " + data.message);
+      toastSuccess(data.message, { duration: 3000, position: 'top-center' });
       console.log("Logged in user:", data.data.user);
       if (data.data.accessToken) {
         localStorage.setItem("accessToken", data.data.accessToken);
       }
       router.push("/dashboard");
     },
-    onError: (error: any) => {
-      alert("❌ " + error.message);
+    onError: (error) => {
+      toastError(error.message, { duration: 3000, position: 'top-center' });
     },
   });
 

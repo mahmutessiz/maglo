@@ -1,7 +1,7 @@
-// api/users/logout/route.ts
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-export async function POST() {
+export async function POST(request: NextRequest) {
     try {
         const response = await fetch('https://case.nodelabs.dev/api/users/logout', {
             method: 'POST',
@@ -18,8 +18,21 @@ export async function POST() {
             );
         }
 
-        return NextResponse.json({ message: 'Logout successful' });
+        const responseData = NextResponse.json({ message: 'Logout successful' });
+
+        // Clear the accessToken cookie
+        responseData.cookies.set('accessToken', '', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 0,
+        });
+
+        return responseData;
     } catch (err) {
-        return NextResponse.json({ error: 'An error occurred' + err }, { status: 500 });
+        return NextResponse.json(
+            { error: 'An error occurred: ' + (err instanceof Error ? err.message : String(err)) },
+            { status: 500 }
+        );
     }
 }
