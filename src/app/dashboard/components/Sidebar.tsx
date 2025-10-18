@@ -4,9 +4,10 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuthStore } from "@/stores/authStore";
 
 // --- Logout Mutation Function ---
-export const logoutUser = async () => {
+const logoutUser = async () => {
   const response = await fetch("/api/users/logout", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -30,7 +31,7 @@ export default function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
       queryClient.removeQueries({ queryKey: ["user"] });
-      localStorage.removeItem("accessToken");
+      useAuthStore.getState().logout();
       router.push("/");
     },
     onError: (error) => {

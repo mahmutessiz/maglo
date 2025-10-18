@@ -8,6 +8,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { toastSuccess, toastError } from "@/lib/toast";
+import { useAuthStore } from "@/stores/authStore";
+import type { User } from "@/stores/authStore";
+
+type SignupResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    user: User;
+    accessToken: string;
+  };
+};
 
 const signupSchema = z.object({
   fullName: z.string().min(2, "Full name must be at least 2 characters"),
@@ -25,6 +36,7 @@ type SignupFormData = z.infer<typeof signupSchema>;
 
 export default function SignUpPage() {
   const router = useRouter();
+  const { setAuth } = useAuthStore();
   const {
     register,
     handleSubmit,
@@ -34,7 +46,7 @@ export default function SignUpPage() {
   });
 
   const registerMutation = useMutation({
-    mutationFn: async (data: SignupFormData) => {
+    mutationFn: async (data: SignupFormData): Promise<SignupResponse> => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,8 +62,11 @@ export default function SignUpPage() {
     },
     onSuccess: (data) => {
       toastSuccess(data.message, { duration: 3000, position: "top-center" });
-      console.log("Registered user:", data.data);
-      router.push("/");
+      
+      // Store in Zustand (persists to localStorage automatically)
+      setAuth(data.data.user, data.data.accessToken);
+      
+      router.push("/dashboard");
     },
     onError: (error) => {
       toastError(error.message, { duration: 3000, position: "top-center" });

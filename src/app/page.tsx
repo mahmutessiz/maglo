@@ -8,22 +8,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { toastSuccess, toastError } from "@/lib/toast";
+import { useAuthStore } from "@/stores/authStore";
+import type { User } from "@/stores/authStore";
 
 type LoginResponse = {
   success: boolean;
   message: string;
   data: {
-    user: {
-      id: string;
-      fullName: string;
-      email: string;
-      role: string;
-      isActive: boolean;
-      lastLoginAt: string;
-      lastLoginIP: string;
-      createdAt: string;
-      updatedAt: string;
-    };
+    user: User;
     accessToken: string;
   };
 };
@@ -37,6 +29,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const router = useRouter();
+  const { setAuth } = useAuthStore();
   const {
     register,
     handleSubmit,
@@ -64,10 +57,10 @@ export default function LoginPage() {
     },
     onSuccess: (data) => {
       toastSuccess(data.message, { duration: 3000, position: "top-center" });
-      console.log("Logged in user:", data.data.user);
-      if (data.data.accessToken) {
-        localStorage.setItem("accessToken", data.data.accessToken);
-      }
+      
+      // Store in Zustand (persists to localStorage automatically)
+      setAuth(data.data.user, data.data.accessToken);
+      
       router.push("/dashboard");
     },
     onError: (error) => {

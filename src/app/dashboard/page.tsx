@@ -1,7 +1,9 @@
 "use client";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { toastError } from "@/lib/toast";
+import { useAuthStore } from "@/stores/authStore";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import StatCard from "./components/StatCard";
@@ -9,6 +11,7 @@ import WorkingCapitalChart from "./components/WorkingCapitalChart";
 import RecentTransactions from "./components/RecentTransactions";
 import Wallet from "./components/Wallet/Wallet";
 import ScheduledTransfers from "./components/ScheduledTransfers";
+import LoadingSkeleton from "./components/LoadingSkeleton";
 import { formatCurrency } from "@/lib/utils";
 import type {
   UserProfile,
@@ -21,22 +24,33 @@ import type {
 
 export default function DashboardPage() {
   const router = useRouter();
+  const { accessToken, logout, isAuthenticated } = useAuthStore();
+  const isReady = useAuthStore((state) => state._hasHydrated ?? true); // Wait for hydration
+
+  // Redirect to login if not authenticated (but wait for hydration first)
+  useEffect(() => {
+    if (!isReady) return;
+    
+    if (!isAuthenticated || !accessToken) {
+      router.push("/");
+    }
+  }, [isReady, isAuthenticated, accessToken, router]);
 
   const fetcher = async (url: string) => {
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
+    if (!accessToken) {
       toastError("Please login to continue", { position: "top-center" });
+      logout();
       router.push("/");
       return;
     }
 
     const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
 
     if (res.status === 401) {
       toastError("Session expired. Please login again", { position: "top-center" });
-      localStorage.removeItem("accessToken");
+      logout();
       router.push("/");
       return;
     }
@@ -50,35 +64,52 @@ export default function DashboardPage() {
     return json.data;
   };
 
-  const { data: user } = useQuery<UserProfile>({
+  const { data: user, isLoading: userLoading } = useQuery<UserProfile>({
     queryKey: ["profile"],
     queryFn: () => fetcher("/api/users/profile"),
+    enabled: !!accessToken,
   });
 
-  const { data: summary } = useQuery<FinancialSummary>({
+  const { data: summary, isLoading: summaryLoading } = useQuery<FinancialSummary>({
     queryKey: ["summary"],
     queryFn: () => fetcher("/api/financial/summary"),
+    enabled: !!accessToken,
   });
 
-  const { data: workingCapital } = useQuery<WorkingCapital>({
+  const { data: workingCapital, isLoading: workingCapitalLoading } = useQuery<WorkingCapital>({
     queryKey: ["workingCapital"],
     queryFn: () => fetcher("/api/financial/working-capital"),
+    enabled: !!accessToken,
   });
 
-  const { data: walletData } = useQuery<WalletData>({
+  const { data: walletData, isLoading: walletLoading } = useQuery<WalletData>({
     queryKey: ["wallet"],
     queryFn: () => fetcher("/api/financial/wallet"),
+    enabled: !!accessToken,
   });
 
-  const { data: scheduledTransfers } = useQuery<ScheduledTransfersData>({
+  const { data: scheduledTransfers, isLoading: scheduledTransfersLoading } = useQuery<ScheduledTransfersData>({
     queryKey: ["scheduledTransfers"],
     queryFn: () => fetcher("/api/financial/transfers/scheduled"),
+    enabled: !!accessToken,
   });
 
-  const { data: recentTransactions } = useQuery<TransactionsData>({
+  const { data: recentTransactions, isLoading: recentTransactionsLoading } = useQuery<TransactionsData>({
     queryKey: ["recentTransactions"],
     queryFn: () => fetcher("/api/financial/transactions/recent"),
+    enabled: !!accessToken,
   });
+
+  // Show loading state while fetching
+  const isLoading = userLoading || summaryLoading || workingCapitalLoading || walletLoading || scheduledTransfersLoading || recentTransactionsLoading;
+
+  if (!isAuthenticated || !accessToken) {
+    return null;
+  }
+
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <div className="flex bg-white min-h-screen text-gray-800">
