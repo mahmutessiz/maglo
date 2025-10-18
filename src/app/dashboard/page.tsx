@@ -137,7 +137,7 @@ export default function DashboardPage() {
               <div className="gap-[25px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 <StatCard
                   title="Total balance"
-                  amount={formatCurrency(summary?.totalBalance.amount ?? 0)}
+                  amount={formatCurrency(summary?.totalBalance.amount ?? 0, summary?.totalBalance.currency ?? "USD")}
                   bgColor="bg-[#363A3F]"
                   iconBgColor="bg-[#4E5257]"
                   textColor="text-white"
@@ -146,7 +146,7 @@ export default function DashboardPage() {
                 />
                 <StatCard
                   title="Total spending"
-                  amount={formatCurrency(summary?.totalExpense.amount ?? 0)}
+                  amount={formatCurrency(summary?.totalExpense.amount ?? 0, summary?.totalExpense.currency ?? "USD")}
                   icon={"/wallet-spending.svg"}
                   bgColor="bg-[#F8F8F8]"
                   iconBgColor="bg-[#EBE8E8]"
@@ -155,7 +155,7 @@ export default function DashboardPage() {
                 />
                 <StatCard
                   title="Total saved"
-                  amount={formatCurrency(summary?.totalSavings.amount ?? 0)}
+                  amount={formatCurrency(summary?.totalSavings.amount ?? 0, summary?.totalSavings.currency ?? "USD")}
                   icon={"/wallet-saved.svg"}
                   bgColor="bg-[#F8F8F8]"
                   iconBgColor="bg-[#EBE8E8]"

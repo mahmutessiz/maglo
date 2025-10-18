@@ -27,7 +27,7 @@ if(isLoading){
     <div className="w-full max-w-md">
       <div className="flex justify-between items-center mb-6 px-4">
         <h2 className="font-semibold text-gray-900 text-xl">Scheduled Transfers</h2>
-        <button className="flex items-center gap-1 font-semibold text-[#29A073] hover:text-teal-700 text-sm">
+        <button className="flex items-center gap-1 font-semibold text-[#29A073] hover:text-teal-700 text-sm cursor-pointer">
           View All <ChevronRight className="w-4 h-4" />
         </button>
       </div>

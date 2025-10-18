@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import type { TransactionsData } from "@/types/types";
+import { formatCurrency } from "@/lib/utils";
 
 export default function RecentTransactionsMobile({ data }: { data?: TransactionsData }) {
   const [showAll, setShowAll] = useState(false);
@@ -72,7 +73,7 @@ export default function RecentTransactionsMobile({ data }: { data?: Transactions
                 tx.amount < 0 ? "text-[#1B212D]" : "text-green-600"
               }`}
             >
-              {tx.amount < 0 ? "−" : "+"}{tx.currency === "TRY" ? "₺" : "$"}{Math.abs(tx.amount).toLocaleString()}
+              {formatCurrency(tx.amount, tx.currency)}
             </p>
           </div>
         ))}

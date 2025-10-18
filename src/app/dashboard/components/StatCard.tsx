@@ -16,6 +16,7 @@ export default function StatCard({
   textColor?: string;
   titleColor?: string;
   iconBgColor?: string;
+  currency?: string;
 }) {
   return (
     <div className={"flex justify-center items-center py-[24px] w-full px-[20px] rounded-[10px]" + ` ${bgColor}`}>

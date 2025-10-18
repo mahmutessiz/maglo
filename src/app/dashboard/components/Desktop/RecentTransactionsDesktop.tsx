@@ -3,6 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import type { TransactionsData } from "@/types/types";
 import Image from "next/image";
+import { formatCurrency } from "@/lib/utils";
 
 export default function RecentTransactionsDesktop({ data }: { data?: TransactionsData }) {
   const [showAll, setShowAll] = useState(false);
@@ -81,7 +82,7 @@ export default function RecentTransactionsDesktop({ data }: { data?: Transaction
             </div>
             <div className="col-span-2">
               <p className={`font-semibold text-sm ${tx.amount < 0 ? "text-[#1B212D]" : "text-green-600"}`}>
-                {tx.amount < 0 ? "−" : "+"}{tx.currency === 'TRY' ? '₺' : '$'}{Math.abs(tx.amount).toLocaleString()}
+                {formatCurrency(tx.amount, tx.currency)}
               </p>
             </div>
             <div className="col-span-3">
