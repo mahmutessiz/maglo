@@ -1,8 +1,8 @@
 "use client";
 import { ChevronRight } from "lucide-react";
 import type { ScheduledTransfersData } from "../../../types/types";
-
-export default function ScheduledTransfers({ data }: { data?: ScheduledTransfersData }) {
+import ScheduledTransfersSkeleton from "./skeletons/ScheduledTransfersSkeleton";
+export default function ScheduledTransfers({ data, isLoading }: { data?: ScheduledTransfersData, isLoading?: boolean }) {
 
   const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -19,6 +19,10 @@ export default function ScheduledTransfers({ data }: { data?: ScheduledTransfers
   return `${dateFormatted} at ${timeFormatted}`;
 };
 
+if(isLoading){
+  return <ScheduledTransfersSkeleton />
+}
+
   return (
     <div className="w-full max-w-md">
       <div className="flex justify-between items-center mb-6 px-4">
@@ -30,7 +34,7 @@ export default function ScheduledTransfers({ data }: { data?: ScheduledTransfers
 
       <div className="space-y-0">
         {data && data.transfers.length > 0 ? (
-          data.transfers.map((transfer, index) => (
+          data.transfers.map((transfer) => (
             <div
               key={transfer.id}
               className={`flex items-center justify-between py-4 px-4 border-b border-b-[#FAFAFA]`}

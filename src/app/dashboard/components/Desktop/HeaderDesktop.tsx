@@ -3,7 +3,9 @@
 import type { UserProfile } from "@/types/types";
 import Image from "next/image";
 
-export default function HeaderDesktop({ user }: { user?: UserProfile }) {
+
+export default function HeaderDesktop({ user}: { user?: UserProfile }) {
+
   return (
     <header className="hidden md:flex justify-between items-center bg-white shadow-sm md:shadow-none md:ml-[calc(16rem)] px-8 pt-[30px] w-auto">
       <h1 className="font-semibold text-[#1B212D text-[25px]">Dashboard</h1>

@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "@/stores/authStore";
 
+// skeletons
+import SidebarSkeleton from "./skeletons/SideBarSkeleton";
+
 // --- Logout Mutation Function ---
 const logoutUser = async () => {
   const response = await fetch("/api/users/logout", {
@@ -21,7 +24,7 @@ const logoutUser = async () => {
   return response.json();
 };
 
-export default function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
+export default function Sidebar({ isMobile = false, isLoading }: { isMobile?: boolean, isLoading?: boolean }) {
   const [activeTab, setActiveTab] = useState("Dashboard");
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -67,6 +70,10 @@ export default function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
       activeIcon: "/settings-icon-active.svg",
     },
   ];
+
+  if (isLoading) {
+    return <SidebarSkeleton isMobile={isMobile} />;
+  }
 
   return (
     <aside

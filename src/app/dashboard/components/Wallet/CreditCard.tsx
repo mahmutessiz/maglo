@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { WalletCard } from "../../../../types/types";
 
+
 export default function CreditCard({ data }: { data?: { cards: WalletCard[] } }) {
 
   const cardImages = {

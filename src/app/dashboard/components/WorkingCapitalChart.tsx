@@ -15,7 +15,7 @@ import {
   type WorkingCapitalChartItem,
 } from "../../../lib/workingCapitalChart";
 import type { WorkingCapital } from "../../../types/types";
-
+import WorkingCapitalChartSkeleton from "./skeletons/WorkingCapitalChartSkeleton";
 // Custom tooltip to include net value
 interface ChartTooltipProps extends TooltipProps<number, string> {
   active?: boolean;
@@ -50,8 +50,10 @@ const CustomTooltip = ({ active, payload, label }: ChartTooltipProps) => {
 
 export default function WorkingCapitalChart({
   data,
+  isLoading,
 }: {
   data?: WorkingCapital;
+  isLoading?: boolean;
 }) {
   const chartData = toRechartsData(data) || [];
 
@@ -110,6 +112,9 @@ export default function WorkingCapitalChart({
     return turkishMonthAbbreviations[normalizedValue] || value;
   };
 
+  if (isLoading) {
+    return <WorkingCapitalChartSkeleton />;
+  }
   return (
     <div className="bg-white md:px-[25px] py-2 md:py-[15px] border border-[#F5F5F5] rounded-[10px]">
       <div className="flex flex-wrap justify-between items-center mb-5 px-[15px]">
