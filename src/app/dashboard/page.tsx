@@ -32,7 +32,7 @@ export default function DashboardPage() {
     if (!isReady) return;
 
     if (!isAuthenticated || !accessToken) {
-      router.push("/");
+      router.push("/login");
     }
   }, [isReady, isAuthenticated, accessToken, router]);
 
@@ -40,7 +40,7 @@ export default function DashboardPage() {
     if (!accessToken) {
       toastError("Please login to continue", { position: "top-center" });
       logout();
-      router.push("/");
+      router.push("/login");
       return;
     }
 
@@ -53,7 +53,7 @@ export default function DashboardPage() {
         position: "top-center",
       });
       logout();
-      router.push("/");
+      router.push("/login");
       return;
     }
 

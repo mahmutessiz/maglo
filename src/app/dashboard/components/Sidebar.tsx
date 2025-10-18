@@ -35,7 +35,7 @@ export default function Sidebar({ isMobile = false, isLoading }: { isMobile?: bo
       queryClient.invalidateQueries({ queryKey: ["user"] });
       queryClient.removeQueries({ queryKey: ["user"] });
       useAuthStore.getState().logout();
-      router.push("/");
+      router.push("/login");
     },
     onError: (error) => {
       console.error("Logout Error:", error.message);
