@@ -29,10 +29,21 @@ Maglo is a financial tracking platform built with Next.js and TypeScript. It all
 
 ```
 maglo/
-├── components/
-│   ├── providers/
-│   │   └── QueryProvider.tsx
-│   └── Toast.tsx (Test toast component - optional)
+├── .gitignore
+├── eslint.config.mjs
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── README.md
+├── tsconfig.json
+├── .next/
+├── docs/
+│   ├── project-analysis.md
+│   ├── project-structure.md (this file)
+│   └── toast-implementation.md
+├── public/
+│   └── [asset files]
 ├── src/
 │   ├── app/
 │   │   ├── api/
@@ -41,9 +52,23 @@ maglo/
 │   │   │   └── wallet/
 │   │   ├── dashboard/
 │   │   │   ├── components/
+│   │   │   │   ├── Desktop/
+│   │   │   │   │   ├── HeaderDesktop.tsx
+│   │   │   │   │   └── RecentTransactionsDesktop.tsx
 │   │   │   │   ├── Wallet/
 │   │   │   │   │   ├── CreditCard.tsx
 │   │   │   │   │   └── Wallet.tsx
+│   │   │   │   ├── mobile/
+│   │   │   │   │   ├── HeaderMobile.tsx
+│   │   │   │   │   └── RecentTransactionsMobile.tsx
+│   │   │   │   ├── skeletons/
+│   │   │   │   │   ├── HeaderSkeleton.tsx
+│   │   │   │   │   ├── RecentTransactionsSkeleton.tsx
+│   │   │   │   │   ├── ScheduledTransfersSkeleton.tsx
+│   │   │   │   │   ├── SideBarSkeleton.tsx
+│   │   │   │   │   ├── StatCardSkeleton.tsx
+│   │   │   │   │   ├── WalletSkeleton.tsx
+│   │   │   │   │   └── WorkingCapitalChartSkeleton.tsx
 │   │   │   │   ├── Header.tsx
 │   │   │   │   ├── LoadingSkeleton.tsx
 │   │   │   │   ├── RecentTransactions.tsx
@@ -52,28 +77,28 @@ maglo/
 │   │   │   │   ├── StatCard.tsx
 │   │   │   │   └── WorkingCapitalChart.tsx
 │   │   │   └── page.tsx
+│   │   ├── login/
+│   │   │   └── page.tsx
 │   │   ├── sign-up/
 │   │   │   └── page.tsx
+│   │   ├── error.tsx
 │   │   ├── favicon.ico
 │   │   ├── globals.css
 │   │   ├── layout.tsx
 │   │   └── page.tsx (home page)
+│   ├── components/
+│   │   ├── providers/
+│   │   │   └── QueryProvider.tsx
+│   │   └── Toast.tsx
+│   ├── hooks/
 │   ├── lib/
+│   │   ├── toast.ts
 │   │   ├── utils.ts
-│   │   ├── workingCapitalChart.ts
-│   │   └── toast.ts (Toast utility functions)
-│   |── types/
-│   |    └── types.ts
-|   |── components/
-|   │   ├── providers/
-|   │   │   └── QueryProvider.tsx
-|   │   └── Toast.tsx (Test toast component - optional)
-├── public/
-│   └── [asset files]
-├── docs/
-│   ├── project-analysis.md
-│   ├── project-structure.md (this file)
-│   └── toast-implementation.md
+│   │   └── workingCapitalChart.ts
+│   ├── stores/
+│   │   └── authStore.ts
+│   └── types/
+│       └── types.ts
 ```
 
 ### Directory Purpose
@@ -307,23 +332,6 @@ Toast notifications have been successfully implemented using `react-hot-toast` l
 - **Global**: Toaster provider in root layout for application-wide access
 
 ## Development Notes
-
-### Best Practices Implemented
-
-1. **Type Safety**: Complete TypeScript integration with well-defined interfaces
-2. **Component Organization**: Feature-based component structure
-3. **State Management**: Proper React Query integration for server state
-4. **Responsive Design**: Mobile-first approach with responsive layouts
-5. **Performance**: Loading states and skeleton screens
-6. **Security**: JWT token management
-
-### Areas for Enhancement
-
-1. **Form Validation**: Add proper validation with error messages
-2. **Toast Notifications**: Replace alerts with toast notifications - **IMPLEMENTED**
-3. **Error Boundaries**: Add global error boundary handling
-4. **Auto-Redirect**: Add redirect for already authenticated users
-5. **Testing**: Add unit and integration tests
 
 ### File Naming Conventions
 
