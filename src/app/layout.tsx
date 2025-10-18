@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Kumbh_Sans } from "next/font/google";
 import QueryProvider from "../components/providers/QueryProvider";
 import { Toaster } from "react-hot-toast";
-// @ts-expect-error Missing types
+
 import "./globals.css";
 
 const geistSans = Geist({
