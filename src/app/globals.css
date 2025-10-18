@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+body {
+  font-family: var(--font-kumbh-sans), system-ui, -apple-system, sans-serif;
+}
 
 @keyframes slideIn {
   from {

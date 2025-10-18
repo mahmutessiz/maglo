@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
-import { Kumbh_Sans } from "next/font/google";
+import { Geist, Geist_Mono, Kumbh_Sans } from "next/font/google";
 import QueryProvider from "../components/providers/QueryProvider";
 import { Toaster } from "react-hot-toast";
 // @ts-expect-error Missing types
 import "./globals.css";
 
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 const kumbhSans = Kumbh_Sans({
   variable: "--font-kumbh-sans",
@@ -25,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${kumbhSans.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${kumbhSans.variable} antialiased`}
       >
         <Toaster />
         <QueryProvider>{children}</QueryProvider>
