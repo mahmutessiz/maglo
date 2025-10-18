@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -36,7 +37,8 @@ type SignupFormData = z.infer<typeof signupSchema>;
 
 export default function SignUpPage() {
   const router = useRouter();
-  const { setAuth } = useAuthStore();
+  const { setAuth, isAuthenticated, _hasHydrated } = useAuthStore();
+
   const {
     register,
     handleSubmit,
@@ -73,6 +75,18 @@ export default function SignUpPage() {
     },
   });
 
+  // Redirect to dashboard if user is already authenticated
+  useEffect(() => {
+    if (_hasHydrated && isAuthenticated) {
+      router.push("/dashboard");
+    }
+  }, [isAuthenticated, _hasHydrated, router]);
+
+  // Don't render the signup form if the user is authenticated
+  if (_hasHydrated && isAuthenticated) {
+    return null;
+  }
+
   const onSubmit = (data: SignupFormData) => {
     registerMutation.mutate(data);
   };
@@ -81,7 +95,7 @@ export default function SignUpPage() {
     <div className="flex bg-white min-h-screen">
       {/* Left Section */}
       <div className="flex flex-col flex-1 justify-between px-10 md:px-24 py-10">
-        <div className="flex items-center gap-3 mx-auto w-full max-w-sm font-bold text-[#1B212D] text-lg">
+        <Link href="/" className="flex items-center gap-3 mx-auto w-full max-w-sm font-bold text-[#1B212D] text-lg">
           <Image
             src="/maglo-logo.svg"
             alt="Maglo Logo"
@@ -90,28 +104,28 @@ export default function SignUpPage() {
             height={30}
           />
           Maglo.
-        </div>
+        </Link>
 
         {/* form */}
         <div className="flex flex-col flex-grow justify-center items-center">
           <div className="w-full max-w-sm">
-            <h1 className="font-semibold text-gray-900 text-3xl">
+            <h1 className="font-semibold text-[#1B212D] text-3xl">
               Create new account
             </h1>
-            <p className="mt-2 text-gray-500">
+            <p className="mt-2 font-normal text-[#78778B] text-[16px]">
               Welcome! Please enter your details
             </p>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 mt-8">
               <div>
-                <label className="block font-medium text-gray-700 text-sm">
+                <label className="block font-medium text-[#1B212D] text-sm">
                   Full Name
                 </label>
                 <input
                   type="text"
                   placeholder="John Doe"
                   {...register("fullName")}
-                  className={`mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 w-full placeholder-gray-500 ${
+                  className={`mt-1 px-4 py-2 border border-[#F2F2F2] rounded-[10px] focus:outline-none focus:ring-2 text-sm text-[#78778B] w-full placeholder-[#78778B] ${
                     errors.fullName
                       ? "border-red-500 focus:ring-red-400"
                       : "border-gray-300 focus:ring-lime-400"
@@ -125,14 +139,14 @@ export default function SignUpPage() {
               </div>
 
               <div>
-                <label className="block font-medium text-gray-700 text-sm">
+                <label className="block font-medium text-[#1B212D] text-sm">
                   Email
                 </label>
                 <input
                   type="email"
                   placeholder="example@gmail.com"
                   {...register("email")}
-                  className={`mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 w-full placeholder-gray-500 ${
+                  className={`mt-1 px-4 py-2 border border-[#F2F2F2] rounded-[10px] focus:outline-none focus:ring-2 text-sm text-[#78778B] w-full placeholder-[#78778B] ${
                     errors.email
                       ? "border-red-500 focus:ring-red-400"
                       : "border-gray-300 focus:ring-lime-400"
@@ -146,14 +160,14 @@ export default function SignUpPage() {
               </div>
 
               <div>
-                <label className="block font-medium text-gray-700 text-sm">
+                <label className="block font-medium text-[#1B212D] text-sm">
                   Password
                 </label>
                 <input
                   type="password"
                   placeholder="•••••••"
                   {...register("password")}
-                  className={`mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 w-full placeholder-gray-500 ${
+                  className={`mt-1 px-4 py-2 border border-[#F2F2F2] rounded-[10px] focus:outline-none text-sm text-[#78778B] focus:ring-2 w-full placeholder-[#78778B] ${
                     errors.password
                       ? "border-red-500 focus:ring-red-400"
                       : "border-gray-300 focus:ring-lime-400"
@@ -168,24 +182,20 @@ export default function SignUpPage() {
                     )}
                   </div>
                 )}
-                {!errors.password && (
-                  <p className="mt-2 text-gray-500 text-xs">
-                    Password must contain: uppercase, lowercase, number, and special character (!@#$%^&*)
-                  </p>
-                )}
               </div>
 
               <button
                 type="submit"
                 disabled={registerMutation.isPending}
-                className="bg-lime-400 hover:bg-lime-500 disabled:opacity-60 py-2 rounded-lg w-full font-semibold text-gray-900 transition-colors"
+                className="bg-lime-400 hover:bg-lime-500 disabled:opacity-60 py-2 rounded-lg w-full font-semibold text-[#1B212D] text-[16px] transition-colors cursor-pointer"
               >
                 {registerMutation.isPending ? "Creating..." : "Create Account"}
               </button>
 
               <button
                 type="button"
-                className="flex justify-center items-center gap-2 hover:bg-gray-50 py-2 border border-gray-300 rounded-lg w-full transition-colors placeholder-gray-500"
+                disabled
+                className="flex justify-center items-center gap-2 hover:bg-gray-50 py-2 border border-gray-300 rounded-lg w-full transition-colors cursor-not-allowed placeholder-gray-500"
               >
                 <Image
                   src="/DeviconGoogle.svg"
@@ -193,17 +203,17 @@ export default function SignUpPage() {
                   width={20}
                   height={20}
                 />
-                <span className="font-bold text-gray-500 text-sm">
+                <span className="font-bold text-[#78778B] text-[16px]">
                   Sign up with Google
                 </span>
               </button>
             </form>
 
-            <p className="mt-6 text-gray-600 text-sm text-center">
+            <p className="mt-6 text-[#78778B] text-sm text-center">
               Already have an account?{" "}
               <Link
-                href="/"
-                className="inline-block relative font-bold hover:scale-110 transition-transform"
+                href="/login"
+                className="inline-block relative font-medium text-[#1B212D] text-[14px] hover:scale-110 transition-transform"
               >
                 Sign in
                 <span className="bottom-[-4px] left-0 absolute">
