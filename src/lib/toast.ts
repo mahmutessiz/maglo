@@ -1,5 +1,4 @@
 import toast from 'react-hot-toast';
-import type { Toast } from 'react-hot-toast';
 
 type ToastType = 'success' | 'error' | 'loading' | 'custom';
 
@@ -39,31 +38,18 @@ const styles = {
   custom: baseStyle,
 } as const;
 
-const getDefaultIcon = (type: ToastType): string | undefined => {
-  switch (type) {
-    case 'success':
-      return '✓';
-    case 'error':
-      return '✕';
-    case 'loading':
-      return '⟳';
-    default:
-      return undefined;
-  }
-};
 
 export const showToast = (
   message: string,
   type: ToastType = 'custom',
   options: ToastOptions = {}
 ): string => {
-  const { duration = 4000, position = 'bottom-right', icon } = options;
+  const { duration = 4000, position = 'bottom-right' } = options;
 
   const toastConfig = {
     duration,
     position: position as 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right',
     style: styles[type],
-    icon: icon || getDefaultIcon(type),
   };
 
   switch (type) {
