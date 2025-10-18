@@ -1,8 +1,7 @@
 export function formatCurrency(amount: number, currency: string = "USD") {
-  // Handle common currency symbols that might not display properly with Intl.NumberFormat
   switch (currency) {
     case "TRY":
-      return `${amount < 0 ? "−" : ""}₺${Math.abs(amount).toLocaleString("en-US", {
+      return `${amount < 0 ? "−" : ""}₺${Math.abs(amount).toLocaleString("tr-TR", {
         maximumFractionDigits: 0,
       })}`;
     case "USD":
@@ -10,15 +9,14 @@ export function formatCurrency(amount: number, currency: string = "USD") {
         maximumFractionDigits: 0,
       })}`;
     case "EUR":
-      return `${amount < 0 ? "−" : ""}€${Math.abs(amount).toLocaleString("en-US", {
+      return `${amount < 0 ? "−" : ""}€${Math.abs(amount).toLocaleString("de-DE", {
         maximumFractionDigits: 0,
       })}`;
     case "GBP":
-      return `${amount < 0 ? "−" : ""}£${Math.abs(amount).toLocaleString("en-US", {
+      return `${amount < 0 ? "−" : ""}£${Math.abs(amount).toLocaleString("en-GB", {
         maximumFractionDigits: 0,
       })}`;
     default:
-      // For other currencies, use Intl.NumberFormat
       return new Intl.NumberFormat("en-US", {
         style: "currency",
         currency,
