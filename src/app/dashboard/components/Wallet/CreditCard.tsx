@@ -13,12 +13,10 @@ export default function CreditCard({ data }: { data?: { cards: WalletCard[] } })
     wifi: "/wifi.svg",
   };
 
-  // If no data is provided, return empty fragment
   if (!data || !data.cards || data.cards.length === 0) {
     return <div className="py-8 text-gray-500 text-center">No cards available</div>;
   }
 
-  // Get the first card as the primary card (or default if available)
   const primaryCard = data.cards.find(card => card.isDefault) || data.cards[0];
   const secondaryCard = data.cards.length > 1 && data.cards.find(card => card.id !== primaryCard.id) ? 
     data.cards.find(card => card.id !== primaryCard.id) : null;
@@ -26,11 +24,11 @@ export default function CreditCard({ data }: { data?: { cards: WalletCard[] } })
 
   return (
     <>
-      {/* Primary Card */}
+      {/* Card 1 */}
       {primaryCard && (
         <div
           key={primaryCard.id}
-          className="hover:z-50 px-[30px] py-4 rounded-[15px] w-full max-w-[354px] h-[210px] hover:scale-105 transition-transform duration-300 ease-in-out"
+          className="hover:z-50 px-[30px] py-4 rounded-[15px] w-full aspect-video hover:scale-105 transition-transform duration-300 ease-in-out"
           style={{
             background: "linear-gradient(104.3deg, #4A4A49 2.66%, #20201F 90.57%)",
           }}
@@ -85,11 +83,11 @@ export default function CreditCard({ data }: { data?: { cards: WalletCard[] } })
         </div>
       )}
 
-      {/* Secondary Card */}
+      {/* Card 2 */}
       {secondaryCard && (
         <div 
           key={secondaryCard.id}
-          className="bg-gradient-to-b from-gray-200/40 to-gray-300/10 backdrop-blur-sm -mt-16 px-[30px] py-4 rounded-[15px] w-[90%] max-w-[324px] h-[172px] hover:scale-105 transition-transform duration-300 ease-in-out"
+          className="bg-gradient-to-b from-gray-200/40 to-gray-300/10 backdrop-blur-sm -mt-16 px-[30px] py-4 rounded-[15px] w-[90%] aspect-video hover:scale-105 transition-transform duration-300 ease-in-out"
         >
           <div className="flex flex-col gap-2">
             {/* Top Section */}

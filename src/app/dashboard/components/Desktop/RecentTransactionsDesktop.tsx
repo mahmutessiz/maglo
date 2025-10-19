@@ -26,12 +26,12 @@ export default function RecentTransactionsDesktop({ data }: { data?: Transaction
     );
   }
 
-  const visibleTransactions = showAll ? data.transactions : data.transactions.slice(0, 4);
-  const hasMore = data.transactions.length > 4;
+  const visibleTransactions = showAll ? data.transactions : data.transactions.slice(0, 3);
+  const hasMore = data.transactions.length > 3;
 
   return (
-    <div className="py-4 border border-[#F5F5F5] rounded-[10px] w-full max-w-6xl">
-      <div className="flex justify-between items-center mb-6 px-4">
+    <div className="py-[20px] border border-[#F5F5F5] rounded-[10px] w-full max-w-6xl">
+      <div className="flex justify-between items-center px-4">
         <h2 className="font-semibold text-gray-900 text-lg">Recent Transaction</h2>
         {hasMore && (
           <button 

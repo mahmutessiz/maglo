@@ -8,7 +8,7 @@ export default function HeaderDesktop({ user}: { user?: UserProfile }) {
 
   return (
     <header className="hidden md:flex justify-between items-center bg-white shadow-sm md:shadow-none md:ml-[calc(16rem)] px-8 pt-[30px] w-auto">
-      <h1 className="font-semibold text-[#1B212D text-[25px]">Dashboard</h1>
+      <h1 className="font-semibold text-[#1B212D] text-[25px]">Dashboard</h1>
 
       <div className="flex items-center gap-[45px]">
         <button className="text-gray-500 hover:text-gray-800">
@@ -23,7 +23,6 @@ export default function HeaderDesktop({ user}: { user?: UserProfile }) {
           {user ? (
             <>
               <div className="flex justify-center items-center bg-lime-400 rounded-full w-9 h-9 font-bold">
-                {/* get first letters of the full name and surname */}
                 <span>{user.fullName[0].toUpperCase() + user.fullName.split(" ")[1][0].toUpperCase()}</span>
               </div>
               <div className="flex items-center ml-2">
