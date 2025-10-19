@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { toastError } from "@/lib/toast";
 import { useAuthStore } from "@/stores/authStore";
-import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import StatCard from "./components/StatCard";
 import WorkingCapitalChart from "./components/WorkingCapitalChart";
@@ -120,12 +119,11 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="flex bg-white min-h-screen text-gray-800">
-      <Sidebar isLoading={isLoading} />
+    <div className="flex bg-white w-full min-h-screen text-gray-800">
       <div className="flex flex-col flex-1">
         <Header user={user} isLoading={isLoading} />
 
-        <main className="gap-8 grid grid-cols-1 xl:grid-cols-[2fr_1fr] md:ml-[calc(16rem)] p-8 overflow-y-auto">
+        <main className="gap-8 grid grid-cols-1 xl:grid-cols-[2fr_1fr] p-8 overflow-y-auto">
           <div className="flex flex-col gap-8">
             {isLoading ? (
               <div className="gap-[25px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">

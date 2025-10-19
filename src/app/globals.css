@@ -2,6 +2,8 @@
 
 body {
   font-family: var(--font-kumbh-sans), system-ui, -apple-system, sans-serif;
+   max-width: 2000px;
+   margin: 0 auto;
 }
 
 @keyframes slideIn {

@@ -6,31 +6,27 @@ import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "@/stores/authStore";
 
-// skeletons
-import SidebarSkeleton from "./skeletons/SideBarSkeleton";
-
-// --- Logout Mutation Function ---
-const logoutUser = async () => {
-  const response = await fetch("/api/users/logout", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ message: "Logout failed" }));
-    throw new Error(errorData.message || "Logout failed on the server.");
-  }
-
-  return response.json();
-};
-
-export default function Sidebar({ isMobile = false, isLoading }: { isMobile?: boolean, isLoading?: boolean }) {
+export default function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
   const [activeTab, setActiveTab] = useState("Dashboard");
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const logoutMutation = useMutation({
-    mutationFn: logoutUser,
+    mutationFn: async () => {
+      const response = await fetch("/api/users/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        const errorData = await response
+          .json()
+          .catch(() => ({ message: "Logout failed" }));
+        throw new Error(errorData.message || "Logout failed on the server.");
+      }
+
+      return response.json();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"] });
       queryClient.removeQueries({ queryKey: ["user"] });
@@ -44,50 +40,30 @@ export default function Sidebar({ isMobile = false, isLoading }: { isMobile?: bo
   });
 
   const navItems = [
-    {
-      name: "Dashboard",
-      icon: "/home-icon.svg",
-      activeIcon: "/home-icon-active.svg",
-    },
-    {
-      name: "Transactions",
-      icon: "/transaction-icon.svg",
-      activeIcon: "/transaction-icon-active.svg",
-    },
-    {
-      name: "Invoices",
-      icon: "/invoices-icon.svg",
-      activeIcon: "/invoices-icon-active.svg",
-    },
-    {
-      name: "My Wallets",
-      icon: "/My-Wallets.svg",
-      activeIcon: "/My-Wallets-active.svg",
-    },
-    {
-      name: "Settings",
-      icon: "/settings-icon.svg",
-      activeIcon: "/settings-icon-active.svg",
-    },
+    { name: "Dashboard", icon: "/home-icon.svg", activeIcon: "/home-icon-active.svg" },
+    { name: "Transactions", icon: "/transaction-icon.svg", activeIcon: "/transaction-icon-active.svg" },
+    { name: "Invoices", icon: "/invoices-icon.svg", activeIcon: "/invoices-icon-active.svg" },
+    { name: "My Wallets", icon: "/My-Wallets.svg", activeIcon: "/My-Wallets-active.svg" },
+    { name: "Settings", icon: "/settings-icon.svg", activeIcon: "/settings-icon-active.svg" },
   ];
-
-  if (isLoading) {
-    return <SidebarSkeleton isMobile={isMobile} />;
-  }
 
   return (
     <aside
       className={`flex flex-col flex-shrink-0 bg-[#FAFAFA] w-64 h-screen transition-transform duration-300 ${
-        isMobile ? "shadow-lg" : "hidden md:flex md:fixed"
+        isMobile ? "shadow-lg" : "hidden md:flex md:sticky top-0"
       }`}
     >
-      
       <div className="flex items-center gap-2 mb-8 px-8 pt-[30px] h-20">
-        <Image src="/maglo-logo.svg" alt="Maglo Logo" className="w-[30px] h-[30px]" width={30} height={30} />
+        <Image
+          src="/maglo-logo.svg"
+          alt="Maglo Logo"
+          className="w-[30px] h-[30px]"
+          width={30}
+          height={30}
+        />
         <h1 className="font-bold text-[#1B212D] text-lg">Maglo.</h1>
       </div>
 
-     
       <nav className="flex-1 space-y-2 px-6">
         {navItems.map((item) => {
           const isActive = activeTab === item.name;
@@ -114,16 +90,21 @@ export default function Sidebar({ isMobile = false, isLoading }: { isMobile?: bo
         })}
       </nav>
 
-      {/* --- Bottom Section --- */}
       <div className="space-y-2 mb-6 px-6 md:pb-30">
         <a
           href="#"
           className="flex items-center gap-3 hover:bg-gray-100 px-4 py-3 rounded-lg font-medium text-[#929EAE] text-[14px]"
         >
-          <Image src="/help.svg" alt="Help" width={20} height={20} className="w-5 h-5" />
+          <Image
+            src="/help.svg"
+            alt="Help"
+            width={20}
+            height={20}
+            className="w-5 h-5"
+          />
           Help
         </a>
-        
+
         <a
           href="#"
           onClick={(e) => {
@@ -137,7 +118,13 @@ export default function Sidebar({ isMobile = false, isLoading }: { isMobile?: bo
           }`}
           aria-disabled={logoutMutation.isPending}
         >
-          <Image src="/logout.svg" alt="Logout" width={20} height={20} className="w-5 h-5" />
+          <Image
+            src="/logout.svg"
+            alt="Logout"
+            width={20}
+            height={20}
+            className="w-5 h-5"
+          />
           {logoutMutation.isPending ? "Logging out..." : "Logout"}
         </a>
       </div>

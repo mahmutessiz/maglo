@@ -4,7 +4,7 @@ export default function SidebarSkeleton({ isMobile = false }: { isMobile?: boole
   return (
     <aside
       className={`flex flex-col flex-shrink-0 bg-[#FAFAFA] w-64 h-screen transition-transform duration-300 ${
-        isMobile ? "shadow-lg" : "hidden md:flex md:fixed"
+        isMobile ? "shadow-lg" : "hidden md:flex md:sticky md:top-0"
       }`}
     >
       {/* Logo Section Skeleton */}
