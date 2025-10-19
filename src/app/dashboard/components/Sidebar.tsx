@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "@/stores/authStore";
+import Link from "next/link";
 
 export default function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -40,11 +41,31 @@ export default function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
   });
 
   const navItems = [
-    { name: "Dashboard", icon: "/home-icon.svg", activeIcon: "/home-icon-active.svg" },
-    { name: "Transactions", icon: "/transaction-icon.svg", activeIcon: "/transaction-icon-active.svg" },
-    { name: "Invoices", icon: "/invoices-icon.svg", activeIcon: "/invoices-icon-active.svg" },
-    { name: "My Wallets", icon: "/My-Wallets.svg", activeIcon: "/My-Wallets-active.svg" },
-    { name: "Settings", icon: "/settings-icon.svg", activeIcon: "/settings-icon-active.svg" },
+    {
+      name: "Dashboard",
+      icon: "/home-icon.svg",
+      activeIcon: "/home-icon-active.svg",
+    },
+    {
+      name: "Transactions",
+      icon: "/transaction-icon.svg",
+      activeIcon: "/transaction-icon-active.svg",
+    },
+    {
+      name: "Invoices",
+      icon: "/invoices-icon.svg",
+      activeIcon: "/invoices-icon-active.svg",
+    },
+    {
+      name: "My Wallets",
+      icon: "/My-Wallets.svg",
+      activeIcon: "/My-Wallets-active.svg",
+    },
+    {
+      name: "Settings",
+      icon: "/settings-icon.svg",
+      activeIcon: "/settings-icon-active.svg",
+    },
   ];
 
   return (
@@ -68,7 +89,20 @@ export default function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
         {navItems.map((item) => {
           const isActive = activeTab === item.name;
           return (
-            <button
+            <Link
+              href={
+                item.name === "Dashboard"
+                  ? "/dashboard"
+                  : item.name === "Settings"
+                  ? "/dashboard/settings"
+                  : item.name === "My Wallets"
+                  ? "/dashboard/my-wallets"
+                  : item.name === "Transactions"
+                  ? "/dashboard/transactions"
+                  : item.name === "Invoices"
+                  ? "/dashboard/invoices"
+                  : "/dashboard"
+              }
               key={item.name}
               onClick={() => setActiveTab(item.name)}
               className={`flex items-center w-full text-left px-[15px] py-[14px] gap-3 rounded-lg font-medium text-[14px] transition-colors duration-200 ${
@@ -85,7 +119,7 @@ export default function Sidebar({ isMobile = false }: { isMobile?: boolean }) {
                 className="w-5 h-5"
               />
               {item.name}
-            </button>
+            </Link>
           );
         })}
       </nav>
