@@ -28,12 +28,12 @@ export default function CreditCard({ data }: { data?: { cards: WalletCard[] } })
       {primaryCard && (
         <div
           key={primaryCard.id}
-          className="hover:z-50 px-[30px] py-4 rounded-[15px] w-full aspect-video hover:scale-105 transition-transform duration-300 ease-in-out"
+          className="hover:z-50 px-[30px] py-4 rounded-[15px] w-full max-w-[450px] aspect-video hover:scale-105 transition-transform duration-300 ease-in-out"
           style={{
             background: "linear-gradient(104.3deg, #4A4A49 2.66%, #20201F 90.57%)",
           }}
         >
-          <div className="flex flex-col justify-between gap-4">
+          <div className="flex flex-col justify-between gap-4 h-full">
             {/* Top Section */}
             <div className="flex items-center gap-1">
               <p className="font-bold text-[16px] text-white">Maglo.</p>
@@ -87,9 +87,9 @@ export default function CreditCard({ data }: { data?: { cards: WalletCard[] } })
       {secondaryCard && (
         <div 
           key={secondaryCard.id}
-          className="bg-gradient-to-b from-gray-200/40 to-gray-300/10 backdrop-blur-sm -mt-16 px-[30px] py-4 rounded-[15px] w-[90%] aspect-video hover:scale-105 transition-transform duration-300 ease-in-out"
+          className="bg-gradient-to-b from-gray-200/40 to-gray-300/10 backdrop-blur-sm -mt-16 px-[30px] py-4 rounded-[15px] w-[90%] max-w-[400px] aspect-video hover:scale-105 transition-transform duration-300 ease-in-out"
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col justify-between gap-2 h-full">
             {/* Top Section */}
             <div className="flex items-center gap-1">
               <p className="font-bold text-[16px] text-white">Maglo.</p>
