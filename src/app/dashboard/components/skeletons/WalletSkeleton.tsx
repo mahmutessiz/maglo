@@ -5,7 +5,7 @@ export default function CreditCardSkeleton() {
     <>
       {/* Primary Card Skeleton */}
       <div
-        className="px-[30px] py-4 rounded-[15px] w-full max-w-[354px] h-[210px] animate-pulse"
+        className="px-[30px] py-4 rounded-[15px] w-full min-w-[375px] aspect-video animate-pulse"
         style={{
           background: "linear-gradient(104.3deg, #4A4A49 2.66%, #20201F 90.57%)",
         }}
@@ -37,7 +37,7 @@ export default function CreditCardSkeleton() {
 
       {/* Secondary Card Skeleton */}
       <div
-        className="bg-gradient-to-b from-gray-200/40 to-gray-300/10 backdrop-blur-sm -mt-16 px-[30px] py-4 rounded-[15px] w-[90%] max-w-[324px] h-[172px] animate-pulse"
+        className="bg-gradient-to-b from-gray-200/40 to-gray-300/10 backdrop-blur-sm -mt-16 px-[30px] py-4 rounded-[15px] w-[90%] min-w-[350px] aspect-video animate-pulse"
       >
         <div className="flex flex-col gap-2">
           {/* Top Section */}

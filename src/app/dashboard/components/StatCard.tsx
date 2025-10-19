@@ -21,7 +21,7 @@ export default function StatCard({
   return (
     <div 
       aria-label={`Financial stat: ${title}`}
-      className={"flex justify-center items-center py-[24px] w-full px-[20px] rounded-[10px]" + ` ${bgColor}`}
+      className={`flex justify-center items-center py-[24px] w-full px-[20px] rounded-[10px] ${bgColor} hover:scale-105 transition duration-200 ease-in-out`}
     >
       <div className={"w-[42px] h-[42px] mr-[15px] flex items-center justify-center rounded-full" + ` ${iconBgColor}`} aria-hidden="true">
         <Image src={icon} alt="wallet icon" width={20} height={20} className="w-5 h-5" />
