@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Kumbh_Sans } from "next/font/google";
-import { Toaster } from "react-hot-toast";
 import Sidebar from "./components/Sidebar";
 
 import "../globals.css";
@@ -31,27 +30,16 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Maglo - Dashborard</title>
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/maglo-logo.ico"
-        />
-      </head>
-      <body
+   
+      <div
         className={`${geistSans.variable} ${geistMono.variable} ${kumbhSans.variable} antialiased`}
       >
-        <Toaster />
         <div className="flex justify-between gap-[30px]">
          <Sidebar />
         {children} 
         </div>
         
-      </body>
-    </html>
+      </div>
+   
   );
 }
