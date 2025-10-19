@@ -160,7 +160,7 @@ export default function WorkingCapitalChart({
         </div>
       </div>
 
-      <div className="h-72">
+      <div className="focus-visible:outline-none focus:outline-none h-72 working-capital-chart-container">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={chartData}
