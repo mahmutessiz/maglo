@@ -10,16 +10,8 @@ import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { toastSuccess, toastError } from "@/lib/toast";
 import { useAuthStore } from "@/stores/authStore";
-import type { User } from "@/stores/authStore";
+import type { LoginResponse } from "@/types/types";
 
-type LoginResponse = {
-  success: boolean;
-  message: string;
-  data: {
-    user: User;
-    accessToken: string;
-  };
-};
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -31,7 +23,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const router = useRouter();
   const { setAuth, isAuthenticated, _hasHydrated } = useAuthStore();
-  
+
   const {
     register,
     handleSubmit,
@@ -59,10 +51,10 @@ export default function LoginPage() {
     },
     onSuccess: (data) => {
       toastSuccess(data.message, { duration: 3000, position: "top-center" });
-      
+
       // Store in Zustand (persists to localStorage automatically)
       setAuth(data.data.user, data.data.accessToken);
-      
+
       router.push("/dashboard");
     },
     onError: (error) => {
@@ -90,7 +82,10 @@ export default function LoginPage() {
     <div className="flex bg-white min-h-screen">
       {/* Left Section */}
       <div className="relative flex flex-col flex-1 justify-between px-10 md:px-24 py-10">
-        <Link href="/login" className="flex items-center gap-3 mx-auto w-full max-w-sm font-bold text-[#1B212D] text-lg">
+        <Link
+          href="/login"
+          className="flex items-center gap-3 mx-auto w-full max-w-sm font-bold text-[#1B212D] text-lg"
+        >
           <Image
             src="/maglo-logo.svg"
             alt="Maglo Logo"
@@ -111,11 +106,15 @@ export default function LoginPage() {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 mt-8">
               <div>
-                <label className="block font-medium text-[#1B212D] text-sm">
+                <label
+                  htmlFor="email"
+                  className="block font-medium text-[#1B212D] text-sm"
+                >
                   Email
                 </label>
                 <input
                   type="email"
+                  disabled={loginMutation.isPending}
                   placeholder="example@gmail.com"
                   {...register("email")}
                   className={`mt-1 px-4 py-2 border border-[#F2F2F2] rounded-[10px] focus:outline-none focus:ring-2 text-sm text-[#78778B] w-full placeholder-[#78778B] ${
@@ -125,18 +124,22 @@ export default function LoginPage() {
                   }`}
                 />
                 {errors.email && (
-                  <p className="mt-1 text-red-500 text-sm">
+                  <p id="email-error" className="mt-1 text-red-500 text-sm">
                     {errors.email.message}
                   </p>
                 )}
               </div>
 
               <div>
-                <label className="block font-medium text-[#1B212D] text-sm">
+                <label
+                  htmlFor="password"
+                  className="block font-medium text-[#1B212D] text-sm"
+                >
                   Password
                 </label>
                 <input
                   type="password"
+                  disabled={loginMutation.isPending}
                   placeholder="•••••••"
                   {...register("password")}
                   className={`mt-1 px-4 py-2 border border-[#F2F2F2] rounded-[10px] focus:outline-none text-sm text-[#78778B] focus:ring-2 w-full placeholder-[#78778B] ${
@@ -146,7 +149,7 @@ export default function LoginPage() {
                   }`}
                 />
                 {errors.password && (
-                  <p className="mt-1 text-red-500 text-sm">
+                  <p id="password-error" className="mt-1 text-red-500 text-sm">
                     {errors.password.message}
                   </p>
                 )}
@@ -154,6 +157,7 @@ export default function LoginPage() {
 
               <button
                 type="submit"
+                aria-disabled={loginMutation.isPending}
                 disabled={loginMutation.isPending}
                 className="bg-lime-400 hover:bg-lime-500 disabled:opacity-60 py-2 rounded-lg w-full font-semibold text-[#1B212D] text-[16px] transition-colors cursor-pointer"
               >

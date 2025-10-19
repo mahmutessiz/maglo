@@ -1,4 +1,3 @@
-
 export interface UserProfile {
   id: string;
   fullName: string;
@@ -100,3 +99,33 @@ export interface WorkingCapitalEntry {
 
 
 export type Currency = "USD" | "EUR" | "GBP" | "TRY" | string;
+
+export interface User {
+  id: string;
+  fullName: string;
+  email: string;
+  role: string;
+  isActive: boolean;
+  lastLoginAt: string;
+  lastLoginIP: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type LoginResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    user: User;
+    accessToken: string;
+  };
+};
+
+export type SignupResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    user: User;
+    accessToken: string;
+  };
+};

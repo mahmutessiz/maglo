@@ -10,16 +10,8 @@ import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { toastSuccess, toastError } from "@/lib/toast";
 import { useAuthStore } from "@/stores/authStore";
-import type { User } from "@/stores/authStore";
+import type { SignupResponse } from "@/types/types";
 
-type SignupResponse = {
-  success: boolean;
-  message: string;
-  data: {
-    user: User;
-    accessToken: string;
-  };
-};
 
 const signupSchema = z.object({
   fullName: z.string().min(2, "Full name must be at least 2 characters"),
@@ -30,7 +22,10 @@ const signupSchema = z.object({
     .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
     .regex(/[a-z]/, "Password must contain at least one lowercase letter")
     .regex(/[0-9]/, "Password must contain at least one number")
-    .regex(/[!@#$%^&._*]/, "Password must contain at least one special character (!@#$%^&._*)"),
+    .regex(
+      /[!@#$%^&._*]/,
+      "Password must contain at least one special character (!@#$%^&._*)"
+    ),
 });
 
 type SignupFormData = z.infer<typeof signupSchema>;
@@ -49,11 +44,14 @@ export default function SignUpPage() {
 
   const registerMutation = useMutation({
     mutationFn: async (data: SignupFormData): Promise<SignupResponse> => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!res.ok) {
         const errorData = await res.json();
@@ -64,10 +62,10 @@ export default function SignUpPage() {
     },
     onSuccess: (data) => {
       toastSuccess(data.message, { duration: 3000, position: "top-center" });
-      
+
       // Store in Zustand (persists to localStorage automatically)
       setAuth(data.data.user, data.data.accessToken);
-      
+
       router.push("/dashboard");
     },
     onError: (error) => {
@@ -95,7 +93,10 @@ export default function SignUpPage() {
     <div className="flex bg-white min-h-screen">
       {/* Left Section */}
       <div className="flex flex-col flex-1 justify-between px-10 md:px-24 py-10">
-        <Link href="/" className="flex items-center gap-3 mx-auto w-full max-w-sm font-bold text-[#1B212D] text-lg">
+        <Link
+          href="/"
+          className="flex items-center gap-3 mx-auto w-full max-w-sm font-bold text-[#1B212D] text-lg"
+        >
           <Image
             src="/maglo-logo.svg"
             alt="Maglo Logo"
@@ -118,12 +119,16 @@ export default function SignUpPage() {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 mt-8">
               <div>
-                <label className="block font-medium text-[#1B212D] text-sm">
+                <label
+                  htmlFor="signup-fullname"
+                  className="block font-medium text-[#1B212D] text-sm"
+                >
                   Full Name
                 </label>
                 <input
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="Mahfuzul Nabil"
+                  disabled={registerMutation.isPending}
                   {...register("fullName")}
                   className={`mt-1 px-4 py-2 border border-[#F2F2F2] rounded-[10px] focus:outline-none focus:ring-2 text-sm text-[#78778B] w-full placeholder-[#78778B] ${
                     errors.fullName
@@ -132,19 +137,26 @@ export default function SignUpPage() {
                   }`}
                 />
                 {errors.fullName && (
-                  <p className="mt-1 text-red-500 text-sm">
+                  <p
+                    id="signup-fullname-error"
+                    className="mt-1 text-red-500 text-sm"
+                  >
                     {errors.fullName.message}
                   </p>
                 )}
               </div>
 
               <div>
-                <label className="block font-medium text-[#1B212D] text-sm">
+                <label
+                  htmlFor="signup-email"
+                  className="block font-medium text-[#1B212D] text-sm"
+                >
                   Email
                 </label>
                 <input
                   type="email"
-                  placeholder="example@gmail.com"
+                  placeholder="example@example.com"
+                  disabled={registerMutation.isPending}
                   {...register("email")}
                   className={`mt-1 px-4 py-2 border border-[#F2F2F2] rounded-[10px] focus:outline-none focus:ring-2 text-sm text-[#78778B] w-full placeholder-[#78778B] ${
                     errors.email
@@ -153,19 +165,26 @@ export default function SignUpPage() {
                   }`}
                 />
                 {errors.email && (
-                  <p className="mt-1 text-red-500 text-sm">
+                  <p
+                    id="signup-email-error"
+                    className="mt-1 text-red-500 text-sm"
+                  >
                     {errors.email.message}
                   </p>
                 )}
               </div>
 
               <div>
-                <label className="block font-medium text-[#1B212D] text-sm">
+                <label
+                  htmlFor="signup-password"
+                  className="block font-medium text-[#1B212D] text-sm"
+                >
                   Password
                 </label>
                 <input
                   type="password"
                   placeholder="•••••••"
+                  disabled={registerMutation.isPending}
                   {...register("password")}
                   className={`mt-1 px-4 py-2 border border-[#F2F2F2] rounded-[10px] focus:outline-none text-sm text-[#78778B] focus:ring-2 w-full placeholder-[#78778B] ${
                     errors.password
@@ -176,7 +195,10 @@ export default function SignUpPage() {
                 {errors.password && (
                   <div className="space-y-1 mt-2">
                     {errors.password.message && (
-                      <p className="text-red-500 text-sm">
+                      <p
+                        id="signup-password-error"
+                        className="text-red-500 text-sm"
+                      >
                         • {errors.password.message}
                       </p>
                     )}
@@ -186,6 +208,7 @@ export default function SignUpPage() {
 
               <button
                 type="submit"
+                aria-disabled={registerMutation.isPending}
                 disabled={registerMutation.isPending}
                 className="bg-lime-400 hover:bg-lime-500 disabled:opacity-60 py-2 rounded-lg w-full font-semibold text-[#1B212D] text-[16px] transition-colors cursor-pointer"
               >
